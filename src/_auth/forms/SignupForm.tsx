@@ -45,9 +45,8 @@ const SignupForm = () => {
     <Form {...form}>
       <div className="sm:w-420 flex-center flex-col">
         <img src="/assets/images/logo.svg" alt="logo"/>
-
         <h2 className="h3-bold md:h2-bold">Create a new account </h2>
-        <p className="text-light-3 meduim md:base-regular mt-3">Be part of the community right now</p>
+        <p className="text-light-3 meduim md:base-regular mt-3">Sign up and Start the Grind</p>
       
       <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-5 w-full mt-4">
         <FormField
