@@ -20,7 +20,7 @@ import { Link , useNavigate} from "react-router-dom";
 import { createUserAccount } from "@/lib/appwrite/api";
 import { useCreateUserAccount, useSignInAccount } from "@/lib/react-query/queriesAndMutations"
 import { Toast } from "@radix-ui/react-toast"
-import { useUserContext } from "@/context/authContext"
+import { useUserContext } from "@/context/AuthContext"
 
 
 
@@ -29,8 +29,8 @@ const SignupForm = () => {
   const {checkAuthUser, isLoading: isUserLoading} = useUserContext();
   const navigate = useNavigate();
   //Queries
-  const { mutateAsync: createUserAccount, isLoading: isCreatingAccount } = useCreateUserAccount();
-  const { mutateAsync: signInAccount, isLoading: isSigningIn } = useSignInAccount();
+  const { mutateAsync: createUserAccount, isPending: isCreatingAccount } = useCreateUserAccount();
+  const { mutateAsync: signInAccount, isPending: isSigningIn } = useSignInAccount();
   // 1. Define your form.
   const form = useForm<z.infer<typeof SignupValidation>>({
     resolver: zodResolver(SignupValidation),
@@ -128,7 +128,7 @@ const SignupForm = () => {
           )}
         />
         <Button type="submit" className="shad-button_primary">
-            {isCreatingUser ? (
+            {isCreatingAccount ? (
               <div className="flex-center gap-2">
                 <Loader/>Loading...
               </div>
