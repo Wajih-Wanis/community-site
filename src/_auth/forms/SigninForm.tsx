@@ -26,39 +26,31 @@ const SigninForm = () => {
   });
 
   // Queries
-  const { mutateAsync: signInAccount , isPending: isSigningInUser } = useSignInAccount();
+  const { mutateAsync: signInAccount, isPending } = useSignInAccount();
 
   // Handler
   const handleSignin = async (user: z.infer<typeof SigninValidation>) => {
-    try {
-      const session = await signInAccount({
-        email: user.email,
-        password: user.password,
-      });
+    const session = await signInAccount(user);
 
-      if (!session) {
-        toast({ title: "Something went wrong. Please login with your new account", });
-        
-        navigate("/sign-in");
-        
-        return;
-      }
+    if (!session) {
+      toast({ title: "Login failed. Please try again." });
+      
+      return;
+    }
 
-      const isLoggedIn = await checkAuthUser();
+    const isLoggedIn = await checkAuthUser();
 
-      if (isLoggedIn) {
-        form.reset();
+    if (isLoggedIn) {
+      form.reset();
 
-        navigate("/");
-      } else {
-        toast({ title: "Login failed. Please try again.", });
-        
-        return;
-      }
-    } catch (error) {
-      console.log({ error });
+      navigate("/");
+    } else {
+      toast({ title: "Login failed. Please try again.", });
+      
+      return;
     }
   };
+
 
   return (
     <Form {...form}>
@@ -96,7 +88,7 @@ const SigninForm = () => {
         />
 
           <Button type="submit" className="shad-button_primary">
-            {isSigningInUser || isUserLoading ? (
+            {isPending || isUserLoading ? (
               <div className="flex-center gap-2">
                 <Loader /> Loading...
               </div>

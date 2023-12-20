@@ -1,8 +1,6 @@
 import { INewUser } from "@/types";
 import { ID, Query } from "appwrite";
-import { account, appwriteConfig, avatars, databases } from "./config";
-import { error } from "console";
-
+import { account, appwriteConfig, avatars, databases, storage } from "./config";
 
 // AUTH
 
@@ -47,7 +45,7 @@ export async function createUserAccount(user: INewUser) {
         appwriteConfig.databaseId,
         appwriteConfig.usersCollectionId,
         ID.unique(),
-        user
+        user,
       );
   
       return newUser;
@@ -91,7 +89,7 @@ export async function createUserAccount(user: INewUser) {
       );
   
       if (!currentUser) throw Error;
-  
+      console.log(currentUser.documents)
       return currentUser.documents[0];
     } catch (error) {
       console.log(error);
