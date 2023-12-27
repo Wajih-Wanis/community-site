@@ -12,18 +12,18 @@ const TopBar = () => {
         if(isSuccess) navigate(0);
     }, [isSuccess])
   return (  
-    <section className='topBar'>
+    <section className='topbar'>
         <div className='flex-between py-4 px-5'>
             <Link to='/' className="flex gap-3 items-center">
-                <img src='/assests/images/glogo.svg' alt='logo' width={130} height={325}/>
+                <img src='/assets/images/glogo.svg' alt='logo' width={130} height={325}/>
             </Link>
             <div>
                 <Button variant='ghost' className='shad-button_ghost' onClick={() => signOut()}>
-                    <img src='/assests/icons/logout.svg' alt='logout'/>
+                    <img src='/assets/icons/logout.svg' alt='logout'/>
                 </Button>
                 <Button>
                     <Link to={`/profile/${user.id}`} className='flex-center gap-3'>
-                        <img src={user.imageUrl || 'assests/images/profile-placeholder.svg'} alt='profile' 
+                        <img src={user.imageUrl || 'assets/images/profile-placeholder.svg'} alt='profile' 
                         className='h-8 w-8 rounded-full'/>
                     </Link>
                 </Button>

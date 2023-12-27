@@ -1,11 +1,9 @@
 import React from 'react'
 
 const BottomBar = () => {
-  return (
-    <div>
-      
-    </div>
-  )
+  <nav className='bottombar'>
+    
+  </nav>
 }
 
 export default BottomBar
