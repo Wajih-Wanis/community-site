@@ -8,7 +8,7 @@ import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { Button } from '../ui/button';
 
 const LeftSideBar = () => {
-  const pathname = useLocation();
+  const {pathname} = useLocation();
   const {mutate : signOut, isSuccess } = useSignOutAccount();
   const navigate = useNavigate();
   const {user} = useUserContext();
