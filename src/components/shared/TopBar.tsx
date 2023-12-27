@@ -15,14 +15,14 @@ const TopBar = () => {
     <section className='topBar'>
         <div className='flex-between py-4 px-5'>
             <Link to='/' className="flex gap-3 items-center">
-                <img src='/assest/images/glogo.svg' alt='logo' width={130} height={325}/>
+                <img src='/assests/images/glogo.svg' alt='logo' width={130} height={325}/>
             </Link>
             <div>
                 <Button variant='ghost' className='shad-button_ghost' onClick={() => signOut()}>
                     <img src='/assests/icons/logout.svg' alt='logout'/>
                 </Button>
                 <Button>
-                    <Link to={'/profile/${user.id}'} className='flex-center gap-3'>
+                    <Link to={`/profile/${user.id}`} className='flex-center gap-3'>
                         <img src={user.imageUrl || 'assests/images/profile-placeholder.svg'} alt='profile' 
                         className='h-8 w-8 rounded-full'/>
                     </Link>
