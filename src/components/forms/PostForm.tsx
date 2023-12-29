@@ -20,6 +20,8 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { Textarea } from '../ui/textarea'
+import FileUploader from '../shared/FileUploader'
 
 const PostForm = () => {
   // 1. Define your form.
@@ -44,17 +46,61 @@ const PostForm = () => {
           name="Topic"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className='shad-form_label'>Username</FormLabel>
+              <FormLabel className='shad-form_label'>Topic</FormLabel>
               <FormControl>
-                <Input placeholder="shadcn" {...field} />
+                <Input placeholder="Choose the topic" {...field} />
               </FormControl>
-              <FormDescription>
-                This is your public display name.
-              </FormDescription>
-              <FormMessage />
+              <FormMessage className='shad-form_message'/>
             </FormItem>
+            
           )}
         />
+        <FormField
+          control={form.control}
+          name="article"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className='shad-form_label'>Article</FormLabel>
+              <FormControl>
+                <Textarea className='shad-textarea' placeholder="Write your post content..." {...field} />
+              </FormControl>
+              <FormMessage className='shad-form_message'/>
+            </FormItem>
+            
+          )}
+          />
+          <FormField
+          control={form.control}
+          name="image"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className='shad-form_label'>Add image</FormLabel>
+              <FormControl>
+                <FileUploader />
+              </FormControl>
+              <FormMessage className='shad-form_message'/>
+            </FormItem>
+            
+          )}
+          />
+          <FormField
+          control={form.control}
+          name="location"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className='shad-form_label'>Add location</FormLabel>
+              <FormControl>
+                <Input type='text' className='shad-input' />
+              </FormControl>
+              <FormMessage className='shad-form_message'/>
+            </FormItem>
+            
+          )}
+          />
+          <div className='flex gap-4 items-center justify-end'>
+          <Button type="button" className='shad-button_dark_4'>Cancel</Button>
+          <Button type="submit" className='shad-button_primary whitespace-nowrap'>Submit</Button>
+          </div>
         <Button type="submit">Submit</Button>
       </form>
     </Form>
