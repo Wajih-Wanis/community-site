@@ -42,6 +42,20 @@ const PostForm = ({ post }) => {
       <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-9 w-full max-w-5xl">
         <FormField
           control={form.control}
+          name="Title"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className='shad-form_label'>Title</FormLabel>
+              <FormControl>
+                <Textarea className='shad-textarea' placeholder="Write your post title..." {...field} />
+              </FormControl>
+              <FormMessage className='shad-form_message'/>
+            </FormItem>
+            
+          )}
+          />
+        <FormField
+          control={form.control}
           name="Topic"
           render={({ field }) => (
             <FormItem>
