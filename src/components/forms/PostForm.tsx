@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -18,8 +17,14 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from '../ui/textarea'
 import FileUploader from '../shared/FileUploader'
 import { PostValidation } from '@/lib/validation'
+import { Models } from 'appwrite'
 
-const PostForm = ({ post }) => {
+type PostFormProps = {
+  post?: Models.Document;
+}
+
+const PostForm = ({ post }: PostFormProps) => {
+  const {mutateAsync : createPost, isPending : isLoadingCreate } = useCreatePost(); 
   // 1. Define your form.
   const form = useForm<z.infer<typeof PostValidation>>({
     resolver: zodResolver(PostValidation),
@@ -31,7 +36,6 @@ const PostForm = ({ post }) => {
 
   })
  
-  // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof PostValidation>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
