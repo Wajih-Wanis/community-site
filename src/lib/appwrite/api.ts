@@ -119,20 +119,21 @@ export async function createPost(post: INewPost) {
     }
 
     // Convert tags into array
-    const tags = post.tags?.replace(/ /g, "").split(",") || [];
+    //const tags = post.tags?.replace(/ /g, "").split(",") || [];
 
     // Create post
     const newPost = await databases.createDocument(
       appwriteConfig.databaseId,
-      appwriteConfig.postCollectionId,
+      appwriteConfig.postsCollectionId,
       ID.unique(),
       {
         creator: post.userId,
-        caption: post.caption,
+        title: post.title,
+        article: post.article,
         imageUrl: fileUrl,
         imageId: uploadedFile.$id,
         location: post.location,
-        tags: tags,
+        topic: post.topic,
       }
     );
 
