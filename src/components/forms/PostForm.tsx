@@ -21,6 +21,7 @@ import { Models } from 'appwrite'
 import { CreatePost } from '@/_root/pages'
 import { useUserContext } from '@/context/AuthContext'
 import { useToast } from '../ui/use-toast'
+import { useCreatePost } from '@/lib/react-query/queries'
 
 type PostFormProps = {
   post?: Models.Document;
