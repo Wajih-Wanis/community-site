@@ -1,6 +1,7 @@
 import { INewPost, INewUser } from "@/types";
 import { ID, Query } from "appwrite";
 import { account, appwriteConfig, avatars, databases, storage } from "./config";
+import { error } from "console";
 
 // AUTH
 
@@ -192,3 +193,13 @@ export async function deleteFile(fileId: string) {
 }
 
 
+export async function getRecentPosts()  {
+  const posts = await databases.listDocuments(
+    appwriteConfig.databaseId,
+    appwriteConfig.postsCollectionId,
+    [Query.orderDesc('$createdAt'), Query.limit(20)]
+  )
+  if(!posts) throw Error;
+
+  return posts
+}
