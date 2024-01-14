@@ -216,7 +216,7 @@ export async function approvePost(postId: string, approveArray: string[]){
     )
     if (!updatedPost) throw error
 
-    return updatedPost
+    return updatedPost  
   }catch (error) {
     console.log(error)
   }
