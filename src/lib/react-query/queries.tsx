@@ -5,7 +5,7 @@ import{
     useQueryClient,
     useInfiniteQuery,
 } from '@tanstack/react-query'
-import { createPost, createUserAccount, getRecentPosts, signInAccount, signOutAccount } from '../appwrite/api'
+import { approvePost, createPost, createUserAccount, getRecentPosts, signInAccount, signOutAccount } from '../appwrite/api'
 import { INewPost, INewUser } from '@/types'
 import SigninForm from '@/_auth/forms/SigninForm'
 import { QUERY_KEYS } from './queryKeys';
@@ -46,5 +46,29 @@ export const useGetRecentPosts = () => {
   return useQuery({
     queryKey: [QUERY_KEYS.GET_RECENT_POSTS],
     queryFn: getRecentPosts,
+  })
+}
+
+
+export const useApprovePost = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ postId, approvesArray }: {postId: string, approvesArray: string[] }
+      ) => approvePost(postId, approvesArray), 
+      onSuccess: (data) => {
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEYS.GET_POST_BY_ID, data?.$id] 
+        })
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEYS.GET_RECENT_POSTS, data?.$id] 
+        })
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEYS.GET_POSTS, data?.$id] 
+        })
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEYS.GET_CURRENT_USER, data?.$id] 
+        })
+      }
   })
 }
