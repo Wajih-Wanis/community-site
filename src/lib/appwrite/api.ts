@@ -203,3 +203,21 @@ export async function getRecentPosts()  {
 
   return posts
 }
+
+export async function approvePost(postId: string, approveArray: string[]){
+  try{
+    const updatedPost = await databases.updateDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.postsCollectionId,
+      postId,
+      {
+        approves: approveArray
+      }
+    )
+    if (!updatedPost) throw error
+
+    return updatedPost
+  }catch (error) {
+    console.log(error)
+  }
+}
