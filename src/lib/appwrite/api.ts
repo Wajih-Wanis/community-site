@@ -221,3 +221,22 @@ export async function approvePost(postId: string, approveArray: string[]){
     console.log(error)
   }
 }
+
+export async function savePost(postId: string, userId: string){
+  try{
+    const updatedPost = await databases.createDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.savedCollectionId,
+      ID.unique(),
+      {
+        user : userId,
+        post: postId,
+      }
+    )
+    if (!updatedPost) throw error
+
+    return updatedPost  
+  }catch (error) {
+    console.log(error)
+  }
+}
