@@ -15,7 +15,21 @@ const PostStats = ({post, userId}: PostStatsProps) => {
   useState [approves, setApproves] = useState<string[]>(approvesList)
   useState [isSaved, setIsSaved] = useState(false)
 
-  const handleApprovePost = () => {}
+  const handleApprovePost = (e:React.MouseEvent) => {
+    e.stopPropagation();
+
+    let newApproves = [...approves];
+    const hasApproved = newApproves.includes(userId)
+
+    if(hasApproved){
+      newApproves = newApproves.filter((id) => id !== userId)
+    }else{
+      newApproves.push(userId);
+    }
+
+    setApproves(newApproves);
+    approvePost({postId: post.$id, newApproves})
+  }
 
   const handleSavePost = () => {}
 
@@ -29,13 +43,14 @@ const PostStats = ({post, userId}: PostStatsProps) => {
   return (
     <div className='flex justify-between items-center z-20'>
       <div className='flex gap-2 mr-5'>
-        <img src={`${checkIsApproved(approves,userId) ? "/assets/icons/likes.svg" : "/assets/icons/like.svg"}  `} 
+        <img src={checkIsApproved(approves, userId) ? "/assets/icons/likes.svg" : "/assets/icons/like.svg"}  
         alt='approve' width={20} height={20} 
         onClick={handleApprovePost} className='cursor-pointer' />
         <p className='small-medium lg:base-medium'>{approves.length}</p>
       </div>
       <div className='flex gap-2 mr-5'>
-        <img src='/assets/icons/save.svg' alt='approve' width={20} height={20} onClick={() => {}} className='cursor-pointer' />
+        <img src={isSaved ? 'assets/icons/saved.svg' : '/assets/icons/save.svg'}   alt='save' 
+        width={20} height={20} onClick={handleSavePost} className='cursor-pointer' />
       </div>
     </div>
   )
