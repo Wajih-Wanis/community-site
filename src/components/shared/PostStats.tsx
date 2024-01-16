@@ -28,10 +28,22 @@ const PostStats = ({post, userId}: PostStatsProps) => {
     }
 
     setApproves(newApproves);
-    approvePost({postId: post.$id, newApproves})
+    approvePost({postId: post.$id,approvesArray: newApproves})
   }
 
-  const handleSavePost = () => {}
+  const handleSavePost = (e:React.MouseEvent) => {
+    e.stopPropagation();
+    const savedPostRecord = currentUser?.save.find((record: Models.Document) => record.$id === post.$id);
+
+    if(savedPostRecord){
+      setIsSaved(false);
+      deleteSavedPost(savedPostRecord.$id);
+    }
+    else{
+      savePost({postId: post.$id, userId})
+      setIsSaved(true);
+    }
+  }
 
 
   const {mutate: approvePost} = useApprovePost();
