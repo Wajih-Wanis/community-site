@@ -1,5 +1,4 @@
-import { useUserContext } from '@/context/AuthContext';
-import { useApprovePost, useDeleteSavedPost, useSavePost } from '@/lib/react-query/queries';
+import { useApprovePost, useDeleteSavedPost, useGetCurrentUser, useSavePost } from '@/lib/react-query/queries';
 import { checkIsApproved} from '@/lib/utils';
 import { Models } from 'appwrite';
 import React, { useState } from 'react'
@@ -50,7 +49,7 @@ const PostStats = ({post, userId}: PostStatsProps) => {
   const {mutate: savePost} = useSavePost();
   const {mutate: deleteSavedPost} = useDeleteSavedPost();
 
-  const {data: currentUser} = useUserContext();
+  const {data: currentUser} = useGetCurrentUser();
 
   return (
     <div className='flex justify-between items-center z-20'>
