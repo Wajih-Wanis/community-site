@@ -1,7 +1,7 @@
 import { useApprovePost, useDeleteSavedPost, useGetCurrentUser, useSavePost } from '@/lib/react-query/queries';
 import { checkIsApproved} from '@/lib/utils';
 import { Models } from 'appwrite';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 type PostStatsProps = {
     post: Models.Document;
@@ -10,7 +10,7 @@ type PostStatsProps = {
 
 const PostStats = ({post, userId}: PostStatsProps) => {
   const approvesList = post.approves.map((user: Models.Document) => user.$id)
-
+  
   useState [approves, setApproves] = useState<string[]>(approvesList)
   useState [isSaved, setIsSaved] = useState(false)
 
@@ -32,7 +32,6 @@ const PostStats = ({post, userId}: PostStatsProps) => {
 
   const handleSavePost = (e:React.MouseEvent) => {
     e.stopPropagation();
-    const savedPostRecord = currentUser?.save.find((record: Models.Document) => record.$id === post.$id);
 
     if(savedPostRecord){
       setIsSaved(false);
@@ -50,6 +49,11 @@ const PostStats = ({post, userId}: PostStatsProps) => {
   const {mutate: deleteSavedPost} = useDeleteSavedPost();
 
   const {data: currentUser} = useGetCurrentUser();
+  const savedPostRecord = currentUser?.save.find((record: Models.Document) => record.$id === post.$id);
+
+  useEffect(() => {
+    setIsSaved(!!savedPostRecord)
+  }, [currentUser])
 
   return (
     <div className='flex justify-between items-center z-20'>
