@@ -21,7 +21,7 @@ import { Models } from 'appwrite'
 import { CreatePost } from '@/_root/pages'
 import { useUserContext } from '@/context/AuthContext'
 import { useToast } from '../ui/use-toast'
-import { useCreatePost } from '@/lib/react-query/queries'
+import { useCreatePost, useUpdatePost } from '@/lib/react-query/queries'
 
 type PostFormProps = {
   post?: Models.Document;
@@ -30,6 +30,7 @@ type PostFormProps = {
 
 const PostForm = ({ post }: PostFormProps) => {
   const {mutateAsync : createPost, isPending : isLoadingCreate } = useCreatePost(); 
+  const {mutateAsync : updatePost, isPending : isLoadingUpdate } = useUpdatePost(); 
   const {user} = useUserContext();
   const {toast} = useToast();
   const navigate = useNavigate();
@@ -45,13 +46,28 @@ const PostForm = ({ post }: PostFormProps) => {
   })
  
   async function onSubmit(values: z.infer<typeof PostValidation>) {
+    if(post && action === 'Update'){
+      const updatedPost = await updatePost({
+        ...values,
+        postId: post.$id,
+        imageId: post?.imageId,
+        imageUrl: post?.imageUrl,
+      })
+      if(!updatePost){
+        toast({
+          title: 'Please try again'
+        })
+      }
+      navigate(`/posts/${post.$id}`);
+    }
+
     const newPost =  await createPost({
       ...values,
       userId: user.id,
     })
     if (!newPost){
       toast({
-        title: 'Please try again';
+        title: 'Please try again'
       })
     }
     navigate('/');
@@ -131,7 +147,10 @@ const PostForm = ({ post }: PostFormProps) => {
           />
           <div className='flex gap-4 items-center justify-end'>
           <Button type="button" className='shad-button_dark_4'>Cancel</Button>
-          <Button type="submit" className='shad-button_primary whitespace-nowrap'>Submit</Button>
+          <Button type="submit" className='shad-button_primary whitespace-nowrap' disabled={isLoadingCreate || isLoadingUpdate}>
+            {isLoadingCreate || isLoadingUpdate && 'Loading...'}
+            {action} Post
+          </Button>
           </div>
         <Button type="submit">Submit</Button>
       </form>
