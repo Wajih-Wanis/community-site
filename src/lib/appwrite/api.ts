@@ -1,4 +1,4 @@
-import { INewPost, INewUser } from "@/types";
+import { INewPost, INewUser, IUpdatePost } from "@/types";
 import { ID, Query } from "appwrite";
 import { account, appwriteConfig, avatars, databases, storage } from "./config";
 import { error } from "console";
@@ -266,5 +266,50 @@ export async function getPostById(postId: string){
     return post
   } catch (error) {
     console.log(error)
+  }
+}
+
+export async function updatePost(post: IUpdatePost) {
+  
+  const hasFileToUpdate = post.file.length > 0;
+  try {
+    let image = {
+      imageUrl: post.imageUrl,
+      imageId: post.imageId,
+    } 
+
+    if (hasFileToUpdate){
+      const uploadedFile = await uploadFile(post.file[0]);
+      if (!uploadedFile) throw Error; 
+      const fileUrl = getFilePreview(uploadedFile.$id);
+      if (!fileUrl) {
+        await deleteFile(uploadedFile.$id);
+        throw Error;
+      }
+      image = { ...image, imageUrl: fileUrl, imageId: uploadedFile.$id}
+    }
+    
+   
+   
+    // Create post
+    const updatedPost = await databases.updateDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.postsCollectionId,
+      post.postId,
+      {
+        article: post.article,
+        imageUrl: image.imageUrl,
+        imageId: image.imageId,
+      }
+    );
+
+    if (!updatePost) {
+      await deleteFile(post.imageId);
+      throw Error;
+    }
+
+    return updatePost;
+  } catch (error) {
+    console.log(error);
   }
 }
