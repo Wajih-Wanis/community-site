@@ -40,15 +40,21 @@ const PostDetails = () => {
                 </div>
                 </div>
                 </Link>
-              <div className='flex-center gap-4 '>
+              <div className='flex-center'>
                 <Link to={`/update-post/${post?.$id}`} className={`${user.id !== post?.creator.$id && 'hidden'} `}>
                   <img src='/assets/icons/edit.svg' width={24} height={24} alt='edit'/> 
                 </Link>
                 <Button 
                   onClick={handleDeletePost}
-                ></Button>
+                  variant='ghost'
+                  className={`ghost_details-delete_btn ${user.id !== post?.creator.$id && 'hidden'}`}
+                  ><img
+                  src='/assets/icons/delete.svg'
+                  alt='delete' width={24} height={24}/>
+                  </Button>
               </div>
               </div>
+              <hr  className='border w-full border-dark-4/20'/>
             </div> 
         </div>
       )}
