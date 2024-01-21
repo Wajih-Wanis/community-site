@@ -6,7 +6,12 @@ const PostDetails = () => {
   const {id} = useParams()
   const {data: post, isPending} = useGetPostById(id || '');
   return (
-    <div>
+    <div className='post_details-container'>
+      {isPending ? <Loader/> :(
+        <div className='post_details-card'>
+          
+        </div>
+      )}
       
     </div>
   )
