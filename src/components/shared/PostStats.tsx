@@ -5,7 +5,7 @@ import { Loader } from 'lucide-react';
 import React, { useEffect, useState } from 'react'
 
 type PostStatsProps = {
-    post: Models.Document;
+    post?: Models.Document;
     userId: String;
 }
 
@@ -28,7 +28,7 @@ const PostStats = ({post, userId}: PostStatsProps) => {
     }
 
     setApproves(newApproves);
-    approvePost({postId: post.$id,approvesArray: newApproves})
+    approvePost({postId: post?.$id,approvesArray: newApproves})
   }
 
   const handleSavePost = (e:React.MouseEvent) => {
@@ -39,7 +39,7 @@ const PostStats = ({post, userId}: PostStatsProps) => {
       deleteSavedPost(savedPostRecord.$id);
     }
     else{
-      savePost({postId: post.$id, userId})
+      savePost({postId: post?.$id || '', userId})
       setIsSaved(true);
     }
   }

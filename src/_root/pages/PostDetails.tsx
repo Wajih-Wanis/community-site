@@ -1,3 +1,4 @@
+import PostStats from '@/components/shared/PostStats';
 import { Button } from '@/components/ui/button';
 import { useUserContext } from '@/context/AuthContext';
 import { useGetPostById } from '@/lib/react-query/queries'
@@ -55,6 +56,11 @@ const PostDetails = () => {
               </div>
               </div>
               <hr  className='border w-full border-dark-4/20'/>
+                <div className="flex flex-col flex-1 w-full small-medium lg:base-regular">
+                  <p className=''>{post?.title}</p>
+                  <p>{post?.topic}</p>
+              </div>
+              <div className="w-full"> <PostStats post={post} userId={user.id}/> </div>
             </div> 
         </div>
       )}
