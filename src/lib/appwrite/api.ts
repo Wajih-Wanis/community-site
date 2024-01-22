@@ -346,3 +346,18 @@ export async function getInfinitePost({pageParam} : {pageParam: number}) {
     console.log(error)
   }
 }
+
+export async function searchPosts(searchTerm: string) {
+  try {
+    const posts = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.postsCollectionId,
+      [Query.search('Title', searchTerm)]
+    )
+    if (!posts) throw Error;
+    return posts    
+  } catch (error) {
+    console.log(error)
+  }
+}
+
