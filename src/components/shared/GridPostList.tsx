@@ -2,6 +2,7 @@ import { useUserContext } from '@/context/AuthContext'
 import { Models } from 'appwrite'
 import React from 'react'
 import { Link } from 'react-router-dom'
+import PostStats from './PostStats'
 
 type GridPostListProps{
     post: Models.Document[];
@@ -25,6 +26,7 @@ const GridPostList = ({posts, showUser= true, showStats = true}: GridPostListPro
                             <p className='line-clamp-1'>{post.creator.name}</p>
                         </div>
                     )}
+                    {showStats && <PostStats post={post} userId={user.id}/>}
                 </div>
             </li>
         ))}
