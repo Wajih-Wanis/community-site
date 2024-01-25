@@ -6,6 +6,7 @@ import useDebounce from '@/hooks/useDebounce';
 import { searchPosts } from '@/lib/appwrite/api';
 import { useGetPosts, useSearchPosts } from '@/lib/react-query/queries';
 import React, { useState } from 'react'
+import {useInView} from 'react-intersection-observer'
 
 const Explore = () => {
   const  {data: posts, fetchNextPage, hasNextPage} = useGetPosts();
@@ -71,6 +72,11 @@ const Explore = () => {
             )))
           }
           </div>
+          {hasNextPage && !searchValue && (
+            <div ref={ref} className='mt-10'>
+              <Loader/>
+            </div>
+          )}
     </div>
   )
 }
