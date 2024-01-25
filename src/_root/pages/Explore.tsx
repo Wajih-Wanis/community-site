@@ -5,14 +5,17 @@ import { Input } from '@/components/ui/input'
 import useDebounce from '@/hooks/useDebounce';
 import { searchPosts } from '@/lib/appwrite/api';
 import { useGetPosts, useSearchPosts } from '@/lib/react-query/queries';
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {useInView} from 'react-intersection-observer'
 
 const Explore = () => {
+  const {ref, inView } = useInView();
   const  {data: posts, fetchNextPage, hasNextPage} = useGetPosts();
   const [searchValue, setSearchValue] = useState('')
   const debouncedValue = useDebounce(searchValue, 500);
-
+  useEffect(() => {
+    if(inView && !searchValue) fetchNextPage();
+  }, [inView, searchValue])
   const {data: searchedPosts, isFetching: isSearchFetching} = useSearchPosts(debouncedValue)
   
   if(!posts){
