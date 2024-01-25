@@ -3,6 +3,7 @@ import Loader from '@/components/shared/Loader';
 import SearchResults from '@/components/shared/SearchResults';
 import { Input } from '@/components/ui/input'
 import useDebounce from '@/hooks/useDebounce';
+import { searchPosts } from '@/lib/appwrite/api';
 import { useGetPosts, useSearchPosts } from '@/lib/react-query/queries';
 import React, { useState } from 'react'
 
@@ -59,7 +60,10 @@ const Explore = () => {
         </div>
           <div className="flex flex-wrap gap-9 w-full max-w-5xl">
             {shouldShowSearchResults ? (
-              <SearchResults/>
+              <SearchResults
+                isSearchFetching={isSearchFetching}
+                searchedPosts={searchedPosts}
+              />
             ): shouldShowPosts ? (
               <p className='text-light-4 mt-10 text-center w-full'>End Of Posts</p>
             ): (posts.pages.map((items, index) => (
