@@ -1,6 +1,7 @@
 import React from 'react'
 import GridPostList from './GridPostList';
 import Loader from './Loader';
+import { Models } from 'appwrite';
 
 type SearchResultsProps={
   isSearchFetching: boolean;
